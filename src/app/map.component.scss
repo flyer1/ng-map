@@ -1,8 +1,33 @@
-.ed {
-  fill: lightgray;
-  stroke: black;
+.map-container {
+  .map {
+    .ed {
+      fill: #e7e7e7;
+      stroke: #777;
 
-  &:hover {
-    fill: orange;
+      &:hover {
+        fill: orange;
+      }
+    }
+  }
+
+  .tooltip {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, .4);
+    pointer-events: none;
+    z-index: 3;
+
+    &.hidden {
+      display: none;
+    }
+
+    strong {
+        margin-right: 7px;
+    }
   }
 }

@@ -1,1 +1,9 @@
-<svg width="960" height="900"></svg>
+<div class="map-container">
+  <div class="tooltip" [class.hidden]="!showTooltip" style="top: 262px; left: 591px;">
+    <div><strong>ED:</strong> <span id="country-tooltip">999</span></div>
+    <div><strong>Name:</strong> <span id="population-tooltip">FOO BAR</span></div>
+    <div><strong>Area:</strong> <span id="census-year-tooltip">999,999</span></div>
+  </div>
+
+  <div class="map"></div>
+</div>

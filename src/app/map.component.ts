@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { select } from 'd3-selection';
+import { select, event as d3Event } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
 import { geoTransform, geoPath } from 'd3-geo';
 import { json } from 'd3-fetch';
 import * as topojson from 'topojson';
+import { zoom as d3Zoom } from 'd3-zoom';
 
 @Component({
     selector: 'app-map',
@@ -13,20 +14,32 @@ import * as topojson from 'topojson';
 })
 export class MapComponent implements OnInit {
 
+    showTooltip = true;
+    width = 960;
+    height = 900;
+
     ngOnInit() {
         this.initMap();
     }
 
     initMap() {
-        const svg = select('svg'),
-            width = +svg.attr('width'),
-            height = +svg.attr('height');
+        const svg = select('.map').append('svg')
+            .attr('width', this.width)
+            .attr('height', this.height)
+            .append('g');
+        const g = svg.append('g');
+
+        const zoom = d3Zoom()
+            .scaleExtent([1, 32])
+            .on('zoom', () => this.zoomed(g));
+
+        svg.call(zoom);
 
         const x = scaleLinear()
-            .range([0, width]);
+            .range([0, this.width]);
 
         const y = scaleLinear()
-            .range([0, height]);
+            .range([0, this.height]);
 
         // Create a custom cartesian projection (b/c the data is not in spherical corrdinates, eliminating the need to
         // use projections such as mercator, etc). Use a geoTransform to take the input coordinates and scale them to fit within our svg
@@ -48,12 +61,26 @@ export class MapComponent implements OnInit {
             x.domain([topoJson.bbox[0], topoJson.bbox[2]]);
             y.domain([topoJson.bbox[3], topoJson.bbox[1]]);
 
-            svg.selectAll('path')
+            g.selectAll('path')
                 .data(geoJson.features).enter()
                 .append('path')
                 .attr('class', 'ed')
+                .attr('data-shape-area', (d: any) => d.properties.SHAPE_area)
                 .attr('d', path);
+
+            g.selectAll('.place-label')
+                .data(geoJson.features)
+                .enter().append('text')
+                .attr('class', 'place-label')
+                .attr('transform', (d: any) => 'translate(' + path.centroid(d.geometry) + ')')
+                .attr('dy', '.35em')
+                .text((d: any) => d.properties.SHAPE_area > 12383833162 ? d.properties.ED_ID + '-' + d.properties.ENGLISH_NA : '');
         });
 
+    }
+
+    zoomed(g: any) {
+        console.log(d3Event.transform.scale(), d3Event.transform.scale(d3Event.transform.k));
+        g.attr('transform', 'translate(' + d3Event.transform.translate() + ')scale(' + d3Event.transform.scale() + ')');
     }
 }
