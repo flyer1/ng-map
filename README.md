@@ -1,27 +1,35 @@
-# NgMap
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.2.
+# To Convert & Optimize Shapefile
 
-## Development server
+#### Install Global Dependencies
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+``` 
+npm install -g shapefile
+npm install -g ndjson-cli
+```
 
-## Code scaffolding
+#### Process Files
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+``` 
+// Convert shapefile to geoJson
+shp2json ELECTORAL_DISTRICT.shp > geo.json
 
-## Build
+// Add a newline on each feature (ED) to help later steps
+ndjson-split "d.features" < geo.json > geo.ndjson
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+// Convert to topo JSON (un-optimized)
+geo2topo -n tracts=geo.ndjson > topo.json
 
-## Running unit tests
+// Simplify the lines (discard points that don't aid in detail at our target scale)
+toposimplify -p 1 -f < topo.json > topo-simple.json
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+// topo quantize
+topoquantize 1e5 < topo-simple.json > topo-quant.json
+```
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+#### Add application dependencies
+```
+npm install topojson
+npm install @types/topojson --save-dev
+```
