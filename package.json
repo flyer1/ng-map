@@ -27,6 +27,7 @@
     "d3-scale": "^2.2.2",
     "d3-selection": "^1.4.0",
     "rxjs": "~6.3.3",
+    "topojson": "^3.0.2",
     "zone.js": "~0.8.26"
   },
   "devDependencies": {
@@ -42,6 +43,7 @@
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
+    "@types/topojson": "^3.2.1",
     "codelyzer": "~4.5.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

@@ -3,7 +3,7 @@ import { select } from 'd3-selection';
 import { scaleLinear } from 'd3-scale';
 import { geoTransform, geoPath } from 'd3-geo';
 import { json } from 'd3-fetch';
-import { extent } from 'd3-array';
+import * as topojson from 'topojson';
 
 @Component({
   selector: 'app-root',
@@ -38,15 +38,15 @@ export class AppComponent implements OnInit {
     const path = geoPath()
       .projection(projection);
 
-    json('/assets/test.geojson').then((response: any) => {
+    json('/assets/topo-quant.json').then((topoJson: any) => {
 
-      // x.domain(extent(response.features, function (d: any) { return d.properties.Easting; }));
-      // y.domain(extent(geo.features, function (d: any) { return d.properties.Northing; }));
-      x.domain([141000, 1786000]);
-      y.domain([6972000, 5245000]);
+      const geoJson = topojson.feature(topoJson, topoJson.objects.tracts);
+
+      x.domain([topoJson.bbox[0], topoJson.bbox[2]]);
+      y.domain([topoJson.bbox[3], topoJson.bbox[1]]);
 
       svg.selectAll('path')
-        .data(response.features).enter()
+        .data(geoJson['features'] as any).enter()
         .append('path')
         .attr('class', 'lot')
         .attr('d', path);
