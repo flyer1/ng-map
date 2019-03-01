@@ -1,6 +1,6 @@
 
 # How to run
-This is an Angular 7 application that demonstrates how to load an optimized map (in topo JSON format) using D3. 
+This is an Angular 7 application that demonstrates how to load an optimized map (in topo JSON format) using D3.
 
 The original shapefile is 3MB and the optimized topo JSON file is 468KB
 
@@ -17,14 +17,14 @@ This is the process by which you take a shapefile and optimize into topo JSON.
 
 #### Install Global Dependencies
 
-``` 
+```
 npm install -g shapefile
 npm install -g ndjson-cli
 ```
 
 #### Process Files
 
-``` 
+```
 // Convert shapefile to geoJson
 shp2json ELECTORAL_DISTRICT.shp > geo.json
 
@@ -41,6 +41,12 @@ toposimplify -p 1 -f < topo.json > topo-simple.json
 topoquantize 1e5 < topo-simple.json > topo-quant.json
 ```
 
+Other experimentations in acceptable file reduction:
+```
+toposimplify -P 0.1 < topo.json > topo-simple3.json
+topoquantize 1e5 < topo-simple3.json > topo-quant3.json
+```
+**Result:** 131KB
 
 #### Add application dependencies
 ```

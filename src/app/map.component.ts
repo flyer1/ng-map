@@ -39,7 +39,7 @@ export class MapComponent implements OnInit {
         const path = geoPath()
             .projection(projection);
 
-        json('/assets/topo-quant2.json').then((topoJson: any) => {
+        json('/assets/topo-quant3.json').then((topoJson: any) => {
 
             // The topojson conveniently includes a bounding box of the geometry
             const geoJson = topojson.feature(topoJson, topoJson.objects.tracts) as any;
