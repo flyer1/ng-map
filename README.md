@@ -1,5 +1,19 @@
 
+# How to run
+This is an Angular 7 application that demonstrates how to load an optimized map (in topo JSON format) using D3. 
+
+The original shapefile is 3MB and the optimized topo JSON file is 468KB
+
+To run:
+```
+npm ci
+npm serve
+```
+Then open your browser to [http//localhost:4200](http//localhost:4200)
+
+
 # To Convert & Optimize Shapefile
+This is the process by which you take a shapefile and optimize into topo JSON.
 
 #### Install Global Dependencies
 
