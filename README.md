@@ -42,7 +42,7 @@ toposimplify -p 1 -f < topo.json > topo-simple.json
 topoquantize 1e5 < topo-simple.json > topo-quant.json
 ```
 
-Other experimentations in acceptable file reduction:
+Other experimentations in file reduction:
 ```
 toposimplify -P 0.1 < topo.json > topo-simple3.json
 topoquantize 1e5 < topo-simple3.json > topo-quant3.json

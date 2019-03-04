@@ -66,6 +66,13 @@ export class MapComponent implements OnInit {
                 .append('path')
                 .attr('class', 'ed')
                 .attr('data-shape-area', (d: any) => d.properties.SHAPE_area)
+                .attr('d', path)
+                .on('mouseenter', this.onMouseEnter)
+                .on('mouseout', this.onMouseOut);
+
+            g.append('path')
+                .datum(topojson.mesh(topoJson, topoJson.objects.tracts))
+                .attr('class', 'boundary')
                 .attr('d', path);
 
             g.selectAll('.place-label')
@@ -80,7 +87,16 @@ export class MapComponent implements OnInit {
     }
 
     zoomed(g: any) {
-        console.log(d3Event.transform.scale(), d3Event.transform.scale(d3Event.transform.k));
-        g.attr('transform', 'translate(' + d3Event.transform.translate() + ')scale(' + d3Event.transform.scale() + ')');
+        g.style('stroke-width', 1.5 / d3Event.transform.k + 'px');
+        g.attr('transform', d3Event.transform.toString());
+    }
+
+    onMouseEnter(datum: any, index: number, group: any[]) {
+        console.log(datum.properties.ENGLISH_NA);
+        //console.log('mouseenter', datum, index, group);
+    }
+
+    onMouseOut() {
+        console.log('mouseout');
     }
 }
