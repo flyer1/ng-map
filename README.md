@@ -11,6 +11,7 @@ npm serve
 ```
 Then open your browser to [http//localhost:4200](http//localhost:4200)
 
+![logo](https://github.com/flyer1/ng-map/raw/master/src/assets/screenshot.png)
 
 # To Convert & Optimize Shapefile
 This is the process by which you take a shapefile and optimize into topo JSON.
